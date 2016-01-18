@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,10 @@ namespace EnCandRepl
     {
         static void Main(string[] args)
         {
+            //For Debugging Purpose only
+            System.Diagnostics.TextWriterTraceListener tr1 = new System.Diagnostics.TextWriterTraceListener(System.Console.Out);
+            System.Diagnostics.Debug.Listeners.Add(tr1);
+
             //get the directory that contains family tree json files
             string filelocation = "";
             do
@@ -31,6 +36,9 @@ namespace EnCandRepl
 
                 foreach (var file in jsonfiles)
                 {
+                    System.Diagnostics.TextWriterTraceListener tr2 = new TextWriterTraceListener(System.IO.File.OpenRead(file));
+                    Debug.Listeners.Add(tr2);
+
                     //read json into tree
                     //add tree to array
                 }
@@ -39,10 +47,10 @@ namespace EnCandRepl
                 printAncestors(commonAncestors);
                 ReadLine();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine(e.ToString());
             }
         }
 
